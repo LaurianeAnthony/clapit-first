@@ -1,0 +1,18 @@
+h1 List of Projects
+div.row
+  div.col-xs-12.col-md-9
+    section(ui-sortable ng-model='projects')
+      article.col-xs-6.col-md-4(ng-repeat='project in projects track by $index')
+        h2 {{ project.name }}
+        p {{ project.description }} 
+        a.btn.btn-primary(ng-href='#/project:{{$index}}') see full project
+        button.btn.btn-danger(ng-click='removeProject($index)', aria-label='Remove') X
+  
+  div.col-xs-12.col-md-3
+    form.form-horizontal(role='form', ng-submit='addProject()')
+        div.form-group
+          input.form-control(type='text', placeholder='Name', ng-model='project.name')
+        div.form-group
+          textarea.form-control(rows='3', ng-model='project.description') Description
+        div.form-group
+          input.btn.btn-primary(type='submit', value='Create new project')
