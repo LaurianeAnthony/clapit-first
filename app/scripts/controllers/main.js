@@ -51,7 +51,7 @@ angular.module('clapItApp')
     $scope.removeProject= function(index, localStorageService) {
       console.log(projects);
 
-      localStorageService.remove('projects');
+      //localStorageService.remove('projects');
       
     };
 
