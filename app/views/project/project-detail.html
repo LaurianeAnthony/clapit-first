@@ -4,3 +4,42 @@
   <button ng-click="removeProject(projectId)" aria-label="Remove" class="col-md-1 btn btn-danger">X</button>
 </div>
 <p>{{ project.description }}</p>
+<h3>{{ project.listType.listName }}</h3>
+<ul>
+  <li ng-repeat="person in project.listType.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
+</ul>
+<section class="row">
+  <article>
+    <div class="form-group">
+      <button ng-click="showAddList = ! showAddList" class="btn btn-primary">Add list</button>
+    </div>
+    <form ng-show="showAddList" class="form-group form-horizontal">
+      <div class="form-group">
+        <select ng-options="list.value as list.name for list in lists" ng-model="list" class="form-control">
+          <option value="">Sélectionner une liste</option>{{ list }}
+        </select>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <button ng-click="addNewLines()" class="col-md-6 btn btn-primary">+ nouvelle ligne</button>
+        </div>
+        <div ng-repeat="person in personArray" class="col-md-6 form-group form-inline">
+          <ng-form name="userFieldForm">
+            <input placeholded="Nom" type="text" ng-model="person.name" class="form-control"/>
+            <input placeholded="Fonction" type="text" ng-model="person.fonction" class="form-control"/>
+          </ng-form>
+        </div>
+      </div>
+      <button ng-click="addList()" class="btn btn-secondary">Créer la liste</button>
+    </form>
+    <!--form(name="userForm", novalidate, ng-submit="addList()")
+    div.form-group(ng-repeat="user in formData.users", ng-class="{ 'has-error' : userFieldForm.email.$invalid }")
+      ng-form(name="userFieldForm")
+        label {{ user.name }}'s Email
+        input.form-control(type="text", name="email", ng-model="user.email", required)
+        p.help-block(ng-show="userForm.email.$invalid") Valid Email Address Required
+    
+      button.btn.btn-secondary Créer la liste
+    -->
+  </article>
+</section>

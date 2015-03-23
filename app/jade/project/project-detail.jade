@@ -2,3 +2,43 @@ div.row
   h2.col-md-11 {{ project.name }}
   button.col-md-1.btn.btn-danger(ng-click='removeProject(projectId)', aria-label='Remove') X
 p {{ project.description }}
+
+h3 {{ project.listType.listName }}
+ul
+  li(ng-repeat="person in project.listType.list")
+    {{ person.name }}
+    i  ({{ person.fonction }})
+
+
+section.row
+  article
+    div.form-group
+      button.btn.btn-primary(ng-click="showAddList = ! showAddList") Add list
+    form.form-group.form-horizontal(ng-show="showAddList")
+      div.form-group
+        select.form-control(ng-options="list.value as list.name for list in lists" ng-model="list")
+          option(value="") Sélectionner une liste
+          {{ list }}
+      div.row
+        div.form-group
+          button.col-md-6.btn.btn-primary(ng-click="addNewLines()") + nouvelle ligne
+
+        div.col-md-6.form-group.form-inline(ng-repeat="person in personArray")
+          ng-form(name="userFieldForm")
+            input.form-control(placeholded="Nom", type="text", ng-model='person.name')
+            input.form-control(placeholded="Fonction", type="text", ng-model="person.fonction")
+
+      button.btn.btn-secondary(ng-click="addList()") Créer la liste
+
+    //form(name="userForm", novalidate, ng-submit="addList()")
+      div.form-group(ng-repeat="user in formData.users", ng-class="{ 'has-error' : userFieldForm.email.$invalid }")
+        ng-form(name="userFieldForm")
+          label {{ user.name }}'s Email
+          input.form-control(type="text", name="email", ng-model="user.email", required)
+          p.help-block(ng-show="userForm.email.$invalid") Valid Email Address Required
+
+        button.btn.btn-secondary Créer la liste
+
+
+
+  

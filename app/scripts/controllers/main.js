@@ -43,24 +43,65 @@ angular.module('clapItApp')
 
     var projects = localStorageService.get('projects');
 
+    // Show project by id
     var projectId = $routeParams.projectId;
     $scope.projectId = projectId.split(':')[1];
 
     $scope.project= projects[$scope.projectId];
 
 
-
     $scope.removeProject= function(index) {
-      
-      //console.log(projects);
-     /* */
-      //console.log(localStorage.key(0));
-
       projects.splice(index, 1);
       localStorage.clear();
       localStorageService.set('projects', projects);
+    };
+    
+
+    $scope.personArray = [{
+      name: '',
+      fonction: ''
+    }];
+    $scope.addNewLines = function() {
+      $scope.personArray.push({name: '', fonction: ''});
+    };
+
+    $scope.lists = [
+      {name: 'Equipe technique',
+      value: 'technique'},
+      {name: 'Comédiens',
+      value: 'actor'},
+      {name: 'Nouvelle liste',
+      value: 'new'},
+    ];
+
+
+    $scope.addList = function() {
+      var name = $scope.project.name;
+      var description = $scope.project.description;
+
+      $scope.project = {
+        name: name,
+        description: description,
+        listType: {
+          listName: $scope.list,
+          list: $scope.personArray
+        }
+      };
+      angular.forEach(projects, function(value, key){
+
+        if (key == $scope.projectId)  {
+          projects[key]= $scope.project;
+        }
+      });
+      console.log(projects);
+
+      localStorage.clear();
+      localStorageService.set('projects', projects);
+
 
       
     };
+
+
 
   }]); 
