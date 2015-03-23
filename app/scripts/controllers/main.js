@@ -19,12 +19,10 @@ angular.module('clapItApp')
 angular.module('clapItApp')
   .controller('ProjectCtrl', function ($scope, localStorageService) {
     
-    var projectsInStore = localStorageService.get('projects');
-
-    $scope.projects = projectsInStore || [];
+    $scope.projects = getLocalStorage('projects', localStorageService);
 
     $scope.$watch('projects', function () {
-      localStorageService.set('projects', $scope.projects);
+      saveLocalStorage('projects', $scope.projects, localStorageService);
     }, true);
 
     $scope.addProject = function() {
@@ -35,13 +33,14 @@ angular.module('clapItApp')
     $scope.removeProject= function(index) {
       $scope.projects.splice(index, 1);
     };
+
   });
 
 angular.module('clapItApp')
-  .controller('ProjectDetailCtrl', ['$scope', '$routeParams', 'localStorageService', 
-  function($scope, $routeParams, localStorageService) {
+  .controller('ProjectDetailCtrl', ['$scope', '$routeParams', 'localStorageService', '$location',
+  function($scope, $routeParams, localStorageService, $location) {
 
-    var projects = localStorageService.get('projects');
+    var projects = getLocalStorage('projects', localStorageService);
 
     // Show project by id
     var projectId = $routeParams.projectId;
@@ -49,11 +48,15 @@ angular.module('clapItApp')
 
     $scope.project= projects[$scope.projectId];
 
+    $scope.$watch('projects', function () {
+      saveLocalStorage('projects', projects, localStorageService);
+    }, true);
 
     $scope.removeProject= function(index) {
       projects.splice(index, 1);
-      localStorage.clear();
-      localStorageService.set('projects', projects);
+      //console.log(projects);
+      saveLocalStorage('projects', projects, localStorageService);
+      $location.path('/project');
     };
     
 
@@ -66,12 +69,9 @@ angular.module('clapItApp')
     };
 
     $scope.lists = [
-      {name: 'Equipe technique',
-      value: 'technique'},
-      {name: 'Comédiens',
-      value: 'actor'},
-      {name: 'Nouvelle liste',
-      value: 'new'},
+      { name: 'Equipe technique',value: 'technique'},
+      { name: 'Comédiens', value: 'actor'},
+      { name: 'Nouvelle liste', value: 'new'},
     ];
 
 
@@ -80,20 +80,20 @@ angular.module('clapItApp')
       var description = $scope.project.description;
 
       $scope.project = {
-        name: name,
-        description: description,
-        listType: {
+        name : name,
+        description : description,
+        listComedien : {
           listName: $scope.list,
           list: $scope.personArray
         }
       };
       angular.forEach(projects, function(value, key){
-
         if (key == $scope.projectId)  {
           projects[key]= $scope.project;
         }
       });
       console.log(projects);
+
 
       localStorage.clear();
       localStorageService.set('projects', projects);

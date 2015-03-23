@@ -3,9 +3,9 @@ div.row
   button.col-md-1.btn.btn-danger(ng-click='removeProject(projectId)', aria-label='Remove') X
 p {{ project.description }}
 
-h3 {{ project.listType.listName }}
+h3 {{ project.listComedien.listName }}
 ul
-  li(ng-repeat="person in project.listType.list")
+  li(ng-repeat="person in project.listComedien.list")
     {{ person.name }}
     i  ({{ person.fonction }})
 
@@ -30,14 +30,6 @@ section.row
 
       button.btn.btn-secondary(ng-click="addList()") Créer la liste
 
-    //form(name="userForm", novalidate, ng-submit="addList()")
-      div.form-group(ng-repeat="user in formData.users", ng-class="{ 'has-error' : userFieldForm.email.$invalid }")
-        ng-form(name="userFieldForm")
-          label {{ user.name }}'s Email
-          input.form-control(type="text", name="email", ng-model="user.email", required)
-          p.help-block(ng-show="userForm.email.$invalid") Valid Email Address Required
-
-        button.btn.btn-secondary Créer la liste
 
 
 
