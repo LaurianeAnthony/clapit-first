@@ -1,17 +1,36 @@
 
 <h1>List of Projects</h1>
 <div class="row">
-  <div class="col-xs-12 col-md-9">
-    <section ui-sortable="ui-sortable" ng-model="projects">
-      <article ng-repeat="project in projects track by $index" class="col-xs-6 col-md-4">
-        <h2>{{ project.name }}</h2>
-        <p>{{ project.description }} </p><a ng-href="#/project:{{$index}}" class="btn btn-primary">see full project</a>
-        <button ng-click="removeProject($index)" aria-label="Remove" class="btn btn-danger">X</button>
+  <div class="col-xs-12 col-md-10">
+    <section ui-sortable="sortableOptions" ng-model="projects" class="projectsList">
+      <article ng-repeat="project in projects track by $index" class="col-xs-12 col-md-6">
+        <div class="itemProject">
+          <div class="toolBar"><span aria-hidden="true" class="myHandle glyphicon glyphicon-move"></span>
+            <button ng-click="removeProject($index)" aria-label="Remove" class="btn btn-danger"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span></button>
+            <button ng-click="showEditInput=true" ng-hide="showEditInput" aria-label="Remove" class="btn btn-info"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button>
+            <button ng-click="showEditInput=false" ng-show="showEditInput" aria-label="Remove" class="btn btn-info">Valider</button>
+          </div>
+          <div class="infoProject">
+            <div ng-hide="showEditInput" class="infoText">
+              <h2>{{ project.name }}</h2>
+              <p>{{ project.description }} </p>
+            </div>
+            <div ng-show="showEditInput" class="infoEdit">
+              <div class="form-group">
+                <input type="text" placeholder="Name" ng-model="project.name" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <textarea rows="3" ng-model="project.description" class="form-control"></textarea>
+              </div>
+            </div><a ng-href="#/project:{{$index}}" ng-hide="showEditInput" class="btn btn-primary">see full project</a>
+          </div>
+        </div>
       </article>
     </section>
   </div>
-  <div class="col-xs-12 col-md-3">
-    <form role="form" ng-submit="addProject()" class="form-horizontal">
+  <div class="col-xs-12 col-md-2">
+    <div ng-click="showAddProject=true" ng-hide="showAddProject" class="showAddFormProject"><span aria-hidden="true" class="iconFormProject glyphicon glyphicon-plus"></span></div>
+    <form role="form" ng-submit="addProject()" ng-show="showAddProject" class="form-horizontal"><span aria-hidden="true" ng-click="showAddProject=false" class="glyphicon glyphicon-remove"></span>
       <div class="form-group">
         <input type="text" placeholder="Name" ng-model="project.name" class="form-control"/>
       </div>

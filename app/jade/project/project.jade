@@ -1,15 +1,34 @@
 h1 List of Projects
 div.row
-  div.col-xs-12.col-md-9
-    section(ui-sortable ng-model='projects')
-      article.col-xs-6.col-md-4(ng-repeat='project in projects track by $index')
-        h2 {{ project.name }}
-        p {{ project.description }} 
-        a.btn.btn-primary(ng-href='#/project:{{$index}}') see full project
-        button.btn.btn-danger(ng-click='removeProject($index)', aria-label='Remove') X
-  
-  div.col-xs-12.col-md-3
-    form.form-horizontal(role='form', ng-submit='addProject()')
+  div.col-xs-12.col-md-10
+    section.projectsList(ui-sortable="sortableOptions" ng-model='projects')
+      article.col-xs-12.col-md-6(ng-repeat='project in projects track by $index')
+          div.itemProject
+            
+            div.toolBar
+              span.myHandle.glyphicon.glyphicon-move(aria-hidden="true")
+              button.btn.btn-danger(ng-click='removeProject($index)', aria-label='Remove')
+                span.glyphicon.glyphicon-remove(aria-hidden="true")
+              button.btn.btn-info(ng-click='showEditInput=true',ng-hide="showEditInput", aria-label='Remove')
+                span.glyphicon.glyphicon-pencil(aria-hidden="true")
+              button.btn.btn-info(ng-click='showEditInput=false',ng-show="showEditInput", aria-label='Remove') Valider
+            
+            div.infoProject
+              div.infoText(ng-hide="showEditInput")
+                h2 {{ project.name }}
+                p {{ project.description }} 
+              div.infoEdit(ng-show="showEditInput")
+                div.form-group
+                  input.form-control(type='text', placeholder='Name',ng-model='project.name')
+                div.form-group
+                  textarea.form-control(rows='3', ng-model='project.description')
+              a.btn.btn-primary(ng-href='#/project:{{$index}}', ng-hide="showEditInput") see full project
+             
+  div.col-xs-12.col-md-2
+    div.showAddFormProject(ng-click="showAddProject=true", ng-hide="showAddProject")
+      span.iconFormProject.glyphicon.glyphicon-plus(aria-hidden="true")
+    form.form-horizontal(role='form', ng-submit='addProject()', ng-show="showAddProject")
+        span.glyphicon.glyphicon-remove(aria-hidden="true", ng-click="showAddProject=false")
         div.form-group
           input.form-control(type='text', placeholder='Name', ng-model='project.name')
         div.form-group
