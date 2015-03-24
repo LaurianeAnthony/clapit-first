@@ -88,50 +88,19 @@ angular.module('clapItApp')
 
       // Save list
       $scope.addList = function() {
-        var name = $scope.project.name;
-        var description = $scope.project.description;
-        var listTech = $scope.project.listTechnique;
-        var listAct = $scope.project.listComedien;
-        var listAdmin = $scope.project.listAdministration;
+        var currentListName;
+        var currentListTag= "list_"+ $scope.list;
 
-        switch($scope.list){
-          case 'technique':
-            $scope.project = {
-              name : name,
-              description : description,
-              listComedien : listAct,
-              listTechnique : {
-                listName: 'Equipe technique',
-                list: $scope.personArray
-              },
-              listAdministration : listAdmin
-            };
-          break;
-          case 'actor':
-            $scope.project = {
-              name : name,
-              description : description,
-              listComedien : {
-                listName: 'Comédiens',
-                list: $scope.personArray
-              },
-              listTechnique : listTech,
-              listAdministration : listAdmin
-            };
-          break;
-          case 'admin':
-            $scope.project = {
-              name : name,
-              description : description,
-              listComedien : listAct,
-              listTechnique : listTech,
-              listAdministration : {
-                listName: 'Administratif',
-                list: $scope.personArray
-              }
-            };
-          break;
-        }
+        angular.forEach($scope.lists, function(value, key) {
+          if($scope.list==value.value){
+            currentListName = value.name;
+          }
+        });
+
+        $scope.project[currentListTag]= {
+            listName: currentListName,
+            list: $scope.personArray
+          };
         
         $scope.projects[$scope.projectId]=$scope.project;
 
