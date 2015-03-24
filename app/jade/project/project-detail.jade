@@ -1,20 +1,45 @@
-div.row
-  h2.col-md-11 {{ project.name }}
-  button.col-md-1.btn.btn-danger(ng-click='removeProject(projectId)', aria-label='Remove') X
-p {{ project.description }}
 
-h3 {{ project.listComedien.listName }}
-ul
-  li(ng-repeat="person in project.listComedien.list")
-    {{ person.name }}
-    i  ({{ person.fonction }})
+div.toolBar.col-md-12
+  button.btn.btn-danger(ng-click='removeProject(projectId)', aria-label='Remove') X
+  button.btn.btn-info(ng-click='showEditInput=true',ng-hide="showEditInput", aria-label='Remove')
+    span.glyphicon.glyphicon-pencil(aria-hidden="true")
+  button.btn.btn-info(ng-click='showEditInput=false',ng-show="showEditInput", aria-label='Remove') Valider
+div.infoText(ng-hide="showEditInput")
+  h2.col-md-12 {{ project.name }}
+  p {{ project.description }}
+div.infoEdit(ng-show="showEditInput")
+  div.form-group
+    input.form-control(type='text', placeholder='Name',ng-model='project.name')
+  div.form-group
+    textarea.form-control(rows='3', ng-model='project.description')
+
+section.row
+
+  article.col-md-4(ng-show="project.listComedien!=null")
+    h3 {{ project.listComedien.listName }}
+    ul
+      li(ng-repeat="person in project.listComedien.list")
+        {{ person.name }}
+        i  ({{ person.fonction }})
+  article.col-md-4(ng-show="project.listTechnique!=null")
+    h3 {{ project.listTechnique.listName }}
+    ul
+      li(ng-repeat="person in project.listTechnique.list")
+        {{ person.name }}
+        i  ({{ person.fonction }})
+  article.col-md-4(ng-show="project.listAdministration!=null")
+    h3 {{ project.listAdministration.listName }}
+    ul
+      li(ng-repeat="person in project.listAdministration.list")
+        {{ person.name }}
+        i  ({{ person.fonction }})
 
 
 section.row
   article
     div.form-group
       button.btn.btn-primary(ng-click="showAddList = ! showAddList") Add list
-    form.form-group.form-horizontal(ng-show="showAddList")
+    form#addListForm.form-group.form-horizontal(ng-show="showAddList")
       div.form-group
         select.form-control(ng-options="list.value as list.name for list in lists" ng-model="list")
           option(value="") Sélectionner une liste

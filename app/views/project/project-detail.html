@@ -1,19 +1,47 @@
 
-<div class="row">
-  <h2 class="col-md-11">{{ project.name }}</h2>
-  <button ng-click="removeProject(projectId)" aria-label="Remove" class="col-md-1 btn btn-danger">X</button>
+<div class="toolBar col-md-12">
+  <button ng-click="removeProject(projectId)" aria-label="Remove" class="btn btn-danger">X</button>
+  <button ng-click="showEditInput=true" ng-hide="showEditInput" aria-label="Remove" class="btn btn-info"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button>
+  <button ng-click="showEditInput=false" ng-show="showEditInput" aria-label="Remove" class="btn btn-info">Valider</button>
 </div>
-<p>{{ project.description }}</p>
-<h3>{{ project.listComedien.listName }}</h3>
-<ul>
-  <li ng-repeat="person in project.listComedien.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
-</ul>
+<div ng-hide="showEditInput" class="infoText">
+  <h2 class="col-md-12">{{ project.name }}</h2>
+  <p>{{ project.description }}</p>
+</div>
+<div ng-show="showEditInput" class="infoEdit">
+  <div class="form-group">
+    <input type="text" placeholder="Name" ng-model="project.name" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <textarea rows="3" ng-model="project.description" class="form-control"></textarea>
+  </div>
+</div>
+<section class="row">
+  <article ng-show="project.listComedien!=null" class="col-md-4">
+    <h3>{{ project.listComedien.listName }}</h3>
+    <ul>
+      <li ng-repeat="person in project.listComedien.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
+    </ul>
+  </article>
+  <article ng-show="project.listTechnique!=null" class="col-md-4">
+    <h3>{{ project.listTechnique.listName }}</h3>
+    <ul>
+      <li ng-repeat="person in project.listTechnique.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
+    </ul>
+  </article>
+  <article ng-show="project.listAdministration!=null" class="col-md-4">
+    <h3>{{ project.listAdministration.listName }}</h3>
+    <ul>
+      <li ng-repeat="person in project.listAdministration.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
+    </ul>
+  </article>
+</section>
 <section class="row">
   <article>
     <div class="form-group">
       <button ng-click="showAddList = ! showAddList" class="btn btn-primary">Add list</button>
     </div>
-    <form ng-show="showAddList" class="form-group form-horizontal">
+    <form id="addListForm" ng-show="showAddList" class="form-group form-horizontal">
       <div class="form-group">
         <select ng-options="list.value as list.name for list in lists" ng-model="list" class="form-control">
           <option value="">Sélectionner une liste</option>{{ list }}
