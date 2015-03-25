@@ -36,8 +36,12 @@ angular
         templateUrl: 'views/project/project-detail.html',
         controller: 'ProjectDetailCtrl'
       })
+      .when('/option', {
+        templateUrl: 'views/page/option.html',
+        controller: 'OptionCtrl'
+      })
       .when('/about', {
-        templateUrl: 'views/about.html',
+        templateUrl: 'views/page/about.html',
         controller: 'AboutCtrl'
       })
       .otherwise({
