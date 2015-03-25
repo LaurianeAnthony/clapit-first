@@ -1,0 +1,20 @@
+
+<h2>Option</h2>
+<ul ui-sortable="ui-sortable" ng-model="lists">
+  <li ng-repeat="list in lists" ng-hide="$last" style="margin: 10px 0;" class="form-inline">
+    <div ng-hide="showEditInput" class="form-group"><span>{{ list.name }}</span>
+      <button ng-click="showEditInput=true" class="btn btn-info btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button>
+      <button ng-click="removeList($index)" class="btn btn-danger btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-remove"></span></button>
+    </div>
+    <div ng-show="showEditInput" class="form-group">
+      <input ng-model="list.name" class="form-control"/>
+      <button ng-click="showEditInput=false" class="btn btn-info">Ok</button>
+    </div>
+  </li>
+</ul>
+<form ng-submit="addTypeList(newListName)" class="form-inline">
+  <div class="input-group">
+    <input ng-model="newListName" class="form-control"/><span class="input-group-btn">
+      <input type="submit" value="add" class="btn btn-info"/></span>
+  </div>
+</form>

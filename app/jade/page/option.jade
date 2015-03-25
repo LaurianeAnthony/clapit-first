@@ -1,0 +1,19 @@
+h2 Option
+
+ul(ui-sortable ng-model='lists')
+  li.form-inline(ng-repeat="list in lists", ng-hide="$last", style="margin: 10px 0;")
+    div.form-group(ng-hide="showEditInput")
+      span {{ list.name }}
+      button.btn.btn-info.btn-xs(ng-click="showEditInput=true")
+        span.glyphicon.glyphicon-pencil(aria-hidden="true")
+      button.btn.btn-danger.btn-xs(ng-click="removeList($index)")
+        span.glyphicon.glyphicon-remove(aria-hidden="true")
+    div.form-group(ng-show="showEditInput")
+      input.form-control(ng-model="list.name")
+      button.btn.btn-info(ng-click="showEditInput=false") Ok
+
+form.form-inline(ng-submit="addTypeList(newListName)")
+  div.input-group
+    input.form-control(ng-model="newListName")
+    span.input-group-btn
+      input.btn.btn-info(type='submit', value='add')

@@ -4,6 +4,13 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 // endbower
 @import "variable";
 
+
+// reset
+li {
+  list-style: none;
+}
+
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;

@@ -4,6 +4,7 @@ div.toolBar.col-md-12
   button.btn.btn-info(ng-click='showEditInput=true',ng-hide="showEditInput", aria-label='Remove')
     span.glyphicon.glyphicon-pencil(aria-hidden="true")
   button.btn.btn-info(ng-click='showEditInput=false',ng-show="showEditInput", aria-label='Remove') Valider
+
 div.infoText(ng-hide="showEditInput")
   h2.col-md-12 {{ project.name }}
   p {{ project.description }}
@@ -14,26 +15,24 @@ div.infoEdit(ng-show="showEditInput")
     textarea.form-control(rows='3', ng-model='project.description')
 
 section.row
-
-  article.col-md-4(ng-show="project.listComedien!=null")
-    h3 {{ project.listComedien.listName }}
-    ul
-      li(ng-repeat="person in project.listComedien.list")
-        {{ person.name }}
-        i  ({{ person.fonction }})
-  article.col-md-4(ng-show="project.listTechnique!=null")
-    h3 {{ project.listTechnique.listName }}
-    ul
-      li(ng-repeat="person in project.listTechnique.list")
-        {{ person.name }}
-        i  ({{ person.fonction }})
-  article.col-md-4(ng-show="project.listAdministration!=null")
-    h3 {{ project.listAdministration.listName }}
-    ul
-      li(ng-repeat="person in project.listAdministration.list")
+  article.col-md-4(ng-repeat="listProject in  listsProject track by $index", ng-hide="")
+    h3 {{ listProject.listName }}
+    ul(ui-sortable="sortableOptions" ng-model='listProject.list')
+      li(ng-repeat="person in listProject.list")
+        span.myHandle.glyphicon.glyphicon-move(aria-hidden="true")
         {{ person.name }}
         i  ({{ person.fonction }})
 
+  article.col-md-4(ng-repeat="listProject in  listsProject", ng-show="")
+    h3 {{ listProject.listName }}
+    ul
+      li.form-inline(ng-repeat="person in listProject.list")
+        div.form-group
+          label Nom
+          input.form-control(type='text', ng-model='person.name')
+        div.form-group
+          label Fonction
+          input.form-control(type='text', ng-model='person.fonction')
 
 section.row
   article
@@ -41,19 +40,28 @@ section.row
       button.btn.btn-primary(ng-click="showAddList = ! showAddList") Add list
     form#addListForm.form-group.form-horizontal(ng-show="showAddList")
       div.form-group
-        select.form-control(ng-options="list.value as list.name for list in lists" ng-model="list")
+        select.form-control(ng-options="list.value as list.name for list in lists", ng-change="onChangeTypeList()", ng-model="list")
           option(value="") Sélectionner une liste
           {{ list }}
-      div.row
-        div.form-group
-          button.col-md-6.btn.btn-primary(ng-click="addNewLines()") + nouvelle ligne
 
-        div.col-md-6.form-group.form-inline(ng-repeat="person in personArray")
+        div(ng-show="addNewTypeList")
+          input(type="text", ng-model="newTypeList")
+          button.btn.btn-secondary(ng-click="addnewTypeList()") Add new Type list
+      div.row
+        div.col-md-10.form-inline.form-group(ng-repeat="person in personArray")
           ng-form(name="userFieldForm")
-            input.form-control(placeholded="Nom", type="text", ng-model='person.name')
-            input.form-control(placeholded="Fonction", type="text", ng-model="person.fonction")
+            div.form-group
+              label(for="personName") Nom
+              input#personName.form-control(placeholded="Nom", type="text", ng-model='person.name')
+            div.form-group
+              label(for="personFonction") Fonction
+              input#personFonction.form-control(placeholded="Fonction", type="text", ng-model="person.fonction")
+
+        button.col-md-2.btn.btn-primary(ng-click="addNewLines()") + nouvelle ligne
 
       button.btn.btn-secondary(ng-click="addList()") Créer la liste
+      div.text-danger
+        {{ msgError }}
 
 
 

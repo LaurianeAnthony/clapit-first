@@ -17,22 +17,25 @@
   </div>
 </div>
 <section class="row">
-  <article ng-show="project.listComedien!=null" class="col-md-4">
-    <h3>{{ project.listComedien.listName }}</h3>
-    <ul>
-      <li ng-repeat="person in project.listComedien.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
+  <article ng-repeat="listProject in  listsProject track by $index" ng-hide="" class="col-md-4">
+    <h3>{{ listProject.listName }}</h3>
+    <ul ui-sortable="sortableOptions" ng-model="listProject.list">
+      <li ng-repeat="person in listProject.list"><span aria-hidden="true" class="myHandle glyphicon glyphicon-move"></span>{{ person.name }}<i> ({{ person.fonction }})</i></li>
     </ul>
   </article>
-  <article ng-show="project.listTechnique!=null" class="col-md-4">
-    <h3>{{ project.listTechnique.listName }}</h3>
+  <article ng-repeat="listProject in  listsProject" ng-show="" class="col-md-4">
+    <h3>{{ listProject.listName }}</h3>
     <ul>
-      <li ng-repeat="person in project.listTechnique.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
-    </ul>
-  </article>
-  <article ng-show="project.listAdministration!=null" class="col-md-4">
-    <h3>{{ project.listAdministration.listName }}</h3>
-    <ul>
-      <li ng-repeat="person in project.listAdministration.list">{{ person.name }}<i> ({{ person.fonction }})</i></li>
+      <li ng-repeat="person in listProject.list" class="form-inline">
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" ng-model="person.name" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label>Fonction</label>
+          <input type="text" ng-model="person.fonction" class="form-control"/>
+        </div>
+      </li>
     </ul>
   </article>
 </section>
@@ -43,22 +46,31 @@
     </div>
     <form id="addListForm" ng-show="showAddList" class="form-group form-horizontal">
       <div class="form-group">
-        <select ng-options="list.value as list.name for list in lists" ng-model="list" class="form-control">
+        <select ng-options="list.value as list.name for list in lists" ng-change="onChangeTypeList()" ng-model="list" class="form-control">
           <option value="">Sélectionner une liste</option>{{ list }}
         </select>
+        <div ng-show="addNewTypeList">
+          <input type="text" ng-model="newTypeList"/>
+          <button ng-click="addnewTypeList()" class="btn btn-secondary">Add new Type list</button>
+        </div>
       </div>
       <div class="row">
-        <div class="form-group">
-          <button ng-click="addNewLines()" class="col-md-6 btn btn-primary">+ nouvelle ligne</button>
-        </div>
-        <div ng-repeat="person in personArray" class="col-md-6 form-group form-inline">
+        <div ng-repeat="person in personArray" class="col-md-10 form-inline form-group">
           <ng-form name="userFieldForm">
-            <input placeholded="Nom" type="text" ng-model="person.name" class="form-control"/>
-            <input placeholded="Fonction" type="text" ng-model="person.fonction" class="form-control"/>
+            <div class="form-group">
+              <label for="personName">Nom</label>
+              <input id="personName" placeholded="Nom" type="text" ng-model="person.name" class="form-control"/>
+            </div>
+            <div class="form-group">
+              <label for="personFonction">Fonction</label>
+              <input id="personFonction" placeholded="Fonction" type="text" ng-model="person.fonction" class="form-control"/>
+            </div>
           </ng-form>
         </div>
+        <button ng-click="addNewLines()" class="col-md-2 btn btn-primary">+ nouvelle ligne</button>
       </div>
       <button ng-click="addList()" class="btn btn-secondary">Créer la liste</button>
+      <div class="text-danger">{{ msgError }}</div>
     </form>
   </article>
 </section>
