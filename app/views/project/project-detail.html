@@ -17,15 +17,13 @@
   </div>
 </div>
 <section class="row">
-  <article ng-repeat="listProject in  listsProject track by $index" ng-hide="" class="col-md-4">
+  <article ng-repeat="listProject in  listsProject track by $index" class="col-md-4">
     <h3>{{ listProject.listName }}</h3>
-    <ul ui-sortable="sortableOptions" ng-model="listProject.list">
+    <button ng-click="showEditList = ! showEditList" aria-label="Remove" class="btn btn-info"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button>
+    <ul ui-sortable="sortableOptions" ng-model="listProject.list" ng-hide="showEditList">
       <li ng-repeat="person in listProject.list"><span aria-hidden="true" class="myHandle glyphicon glyphicon-move"></span>{{ person.name }}<i> ({{ person.fonction }})</i></li>
     </ul>
-  </article>
-  <article ng-repeat="listProject in  listsProject" ng-show="" class="col-md-4">
-    <h3>{{ listProject.listName }}</h3>
-    <ul>
+    <ul ng-show="showEditList">
       <li ng-repeat="person in listProject.list" class="form-inline">
         <div class="form-group">
           <label>Nom</label>

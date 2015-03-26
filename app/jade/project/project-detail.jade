@@ -15,17 +15,17 @@ div.infoEdit(ng-show="showEditInput")
     textarea.form-control(rows='3', ng-model='project.description')
 
 section.row
-  article.col-md-4(ng-repeat="listProject in  listsProject track by $index", ng-hide="")
+  article.col-md-4(ng-repeat="listProject in  listsProject track by $index")
     h3 {{ listProject.listName }}
-    ul(ui-sortable="sortableOptions" ng-model='listProject.list')
+    button.btn.btn-info(ng-click='showEditList = ! showEditList', aria-label='Remove')
+      span.glyphicon.glyphicon-pencil(aria-hidden="true")
+    ul(ui-sortable="sortableOptions" ng-model='listProject.list' ng-hide="showEditList")
       li(ng-repeat="person in listProject.list")
         span.myHandle.glyphicon.glyphicon-move(aria-hidden="true")
         {{ person.name }}
         i  ({{ person.fonction }})
 
-  article.col-md-4(ng-repeat="listProject in  listsProject", ng-show="")
-    h3 {{ listProject.listName }}
-    ul
+    ul(ng-show="showEditList")
       li.form-inline(ng-repeat="person in listProject.list")
         div.form-group
           label Nom

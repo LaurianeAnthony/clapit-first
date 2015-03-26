@@ -24,8 +24,6 @@ app.factory('ProjectsFactory', function(localStorageService) {
     getProjects : function(){
       var projectsInStore = localStorageService.get("projects");
       return projectsInStore || [];
-
-      //return factory.posts;
     },
     /*getProject : function(id){
       var project = {};
@@ -54,6 +52,25 @@ app.factory('ListsFactory', function(localStorageService) {
     saveList : function(value){
       localStorageService.set('lists', value, localStorageService);
       return factory.lists;
+    }
+  }
+  return factory;
+})
+
+app.factory('TestFactory', function($http, $q) {
+  var factory = { 
+    tests : false,
+    initTests : function(){
+      var deferred = $q.defer();
+      $http.get('http://private-7e119-clapit.apiary-mock.com/message').
+        success(function(data, status) {
+          factory.tests = data;
+          deferred.resolve(factory.tests);
+        }).
+        error(function(data, status) {
+          deferred.reject('Impossible de récupérer les données');
+        });
+        return deferred.promise;
     }
   }
   return factory;
